@@ -1,0 +1,16 @@
+name: cleaner
+on:
+  workflow_dispatch:
+
+jobs:
+  clean:
+    name: Clean
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Clean
+        run: sh ./cleaner.sh long18 github-action-test
+        working-directory: .github/actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
