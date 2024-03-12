@@ -1,0 +1,41 @@
+name: Delete all workflows
+author: "Long Le - William"
+description: "Delete all workflows for a given repository"
+inputs:
+  owner:
+    description: "Specify the repository owner"
+    required: true
+  repo:
+    description: "Specify the repository name"
+    required: true
+  token:
+    description: "Specify the token used to get and delete the workflow runs"
+    default: ${{ github.token }}}
+    required: true
+  workflow:
+    description: "Specify the workflow name to delete the runs for"
+    default: "all"
+    required: false
+  loop:
+    description: "Specify the number of runs to delete"
+    default: "1"
+    required: false
+branding:
+  icon: delete
+  color: gray-dark
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      env:
+        OWNER: ${{ inputs.owner }}
+        REPO: ${{ inputs.repo }}
+        TOKEN: ${{ inputs.token }}
+        WORKFLOW: ${{ inputs.workflow }}
+        LOOP: ${{ inputs.loop }}
+      run: |
+        ${{ github.action_path }}/delete_workflow_runs.sh \
+          -o ${{ env.OWNER }} \
+          -r ${{ env.REPO }} \
+          -t ${{ env.TOKEN }} \
+          -w ${{ env.WORKFLOW }}
